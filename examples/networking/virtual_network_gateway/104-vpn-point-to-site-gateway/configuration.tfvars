@@ -1,7 +1,7 @@
 global_settings = {
   default_region = "region1"
   regions = {
-    region1 = "southeastasia"
+    region1 = "australiaeast"
   }
 }
 
@@ -76,8 +76,8 @@ virtual_network_gateways = {
           }
         }
         root_certificate = {
-          name = "Verizon-Global-Root-CA"
-            public_cert_data = <<EOF
+          name             = "Verizon-Global-Root-CA"
+          public_cert_data = <<EOF
               MIIDuzCCAqOgAwIBAgIQCHTZWCM+IlfFIRXIvyKSrjANBgkqhkiG9w0BAQsFADBn
               MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
               d3cuZGlnaWNlcnQuY29tMSYwJAYDVQQDEx1EaWdpQ2VydCBGZWRlcmF0ZWQgSUQg
@@ -99,8 +99,8 @@ virtual_network_gateways = {
               WsfMLH4JCLa/tRYL+Rw/N3ybCkDp00s0WUZ+AoDywSl0Q/ZEnNY0MsFiw6LyIdbq
               M/s/1JRtO3bDSzD9TazRVzn2oBqzSa8VgIo5C1nOnoAKJTlsClJKvIhnRlaLQqk=
               EOF
-            }
         }
       }
+    }
   }
 }

@@ -1,7 +1,7 @@
 global_settings = {
   default_region = "region1"
   regions = {
-    region1 = "southeastasia"
+    region1 = "australiaeast"
   }
   random_length = 5
 }
@@ -31,8 +31,8 @@ keyvaults = {
 keyvault_access_policies_azuread_apps = {
   test_client = {
     test_client = {
-      azuread_app_key    = "test_client"
-      secret_permissions = ["Set", "Get", "List", "Delete"]
+      azuread_application_key = "test_client"
+      secret_permissions      = ["Set", "Get", "List", "Delete"]
     }
   }
 }

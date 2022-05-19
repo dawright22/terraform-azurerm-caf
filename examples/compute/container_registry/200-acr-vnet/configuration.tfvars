@@ -2,8 +2,8 @@ global_settings = {
   default_region = "region1"
   environment    = "test"
   regions = {
-    region1 = "southeastasia"
-    region2 = "eastasia"
+    region1 = "australiaeast"
+    region2 = "australiacentral"
     region3 = "westeurope"
   }
 }
@@ -24,10 +24,13 @@ azure_container_registries = {
     name               = "acr-test"
     resource_group_key = "acr_region1"
     sku                = "Premium"
+
+    #public_network_access_enabled = "false" #Only able to control when sku = "premium"
+
     georeplications = {
       region2 = {
         tags = {
-          region = "eastasia"
+          region = "australiacentral"
           type   = "acr_replica"
         }
       }

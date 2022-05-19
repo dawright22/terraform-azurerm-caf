@@ -2,8 +2,8 @@ global_settings = {
   default_region = "region1"
   environment    = "test"
   regions = {
-    region1 = "southeastasia"
-    region2 = "eastasia"
+    region1 = "australiaeast"
+    region2 = "australiacentral"
     region3 = "westeurope"
   }
 }
@@ -27,7 +27,7 @@ azure_container_registries = {
     georeplications = {
       region2 = {
         tags = {
-          region = "eastasia"
+          region = "australiacentral"
           type   = "acr_replica"
         }
       }
@@ -39,15 +39,16 @@ azure_container_registries = {
       }
     }
 
-    private_links = {
+    private_endpoints = {
       hub_rg1-jumphost = {
         name               = "acr-test-private-link"
         resource_group_key = "vnet_region1"
         vnet_key           = "hub_rg1"
         subnet_key         = "jumphost"
         private_service_connection = {
-          name                 = "acr-test-private-link-psc"
+          name                 = "acr-private-link"
           is_manual_connection = false
+          subresource_names    = ["registry"]
         }
       }
     }
@@ -75,9 +76,10 @@ vnets = {
     specialsubnets = {}
     subnets = {
       jumphost = {
-        name             = "jumphost"
-        cidr             = ["100.64.103.0/27"]
-        service_endpoint = ["Microsoft.ContainerRegistry"]
+        name                                           = "jumphost"
+        cidr                                           = ["100.64.103.0/27"]
+        service_endpoint                               = ["Microsoft.ContainerRegistry"]
+        enforce_private_link_endpoint_network_policies = "true"
       }
     }
   }

@@ -21,16 +21,19 @@ resource "azurecaf_name" "host" {
 resource "azurerm_bastion_host" "host" {
   for_each = try(local.compute.bastion_hosts, {})
 
-  name                = azurecaf_name.host[each.key].result
-  location            = lookup(each.value, "region", null) == null ? local.resource_groups[each.value.resource_group_key].location : local.global_settings.regions[each.value.region]
-  resource_group_name = local.resource_groups[each.value.resource_group_key].name
-  tags                = try(local.global_settings.inherit_tags, false) ? merge(local.resource_groups[each.value.resource_group_key].tags, try(each.value.tags, null)) : try(each.value.tags, null)
+  name = azurecaf_name.host[each.key].result
+  tags = try(local.global_settings.inherit_tags, false) ? merge(local.resource_groups[each.value.resource_group_key].tags, try(each.value.tags, null)) : try(each.value.tags, null)
+
+  location            = can(local.global_settings.regions[each.value.region]) ? local.global_settings.regions[each.value.region] : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)].location
+  resource_group_name = can(each.value.resource_group.name) ? each.value.resource_group.name : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)].name
+  sku                 = try(each.value.sku, null)
 
   ip_configuration {
     name                 = each.value.name
     subnet_id            = local.combined_objects_networking[try(each.value.vnet.lz_key, local.client_config.landingzone_key)][try(each.value.vnet.vnet_key, each.value.vnet_key)].subnets[try(each.value.vnet.subnet_key, each.value.subnet_key)].id
-    public_ip_address_id = local.combined_objects_public_ip_addresses[try(each.value.public_ip.lz_key, local.client_config.landingzone_key)][try(each.value.public_ip.public_ip_key, each.value.public_ip_key)].id
+    public_ip_address_id = can(each.value.public_ip.id) ? each.value.public_ip.id : local.combined_objects_public_ip_addresses[try(each.value.public_ip.lz_key, local.client_config.landingzone_key)][try(each.value.public_ip.key, each.value.public_ip_key, each.value.public_ip.public_ip_key)].id
   }
+
   timeouts {
     create = "60m"
   }
@@ -40,8 +43,10 @@ module "bastion_host_diagnostics" {
   source   = "./modules/diagnostics"
   for_each = try(local.compute.bastion_hosts, {})
 
-  resource_id       = azurerm_bastion_host.host[each.key].id
-  resource_location = local.resource_groups[each.value.resource_group_key].location
-  diagnostics       = local.combined_diagnostics
-  profiles          = try(each.value.diagnostic_profiles, {})
+  resource_id = azurerm_bastion_host.host[each.key].id
+  diagnostics = local.combined_diagnostics
+  profiles    = try(each.value.diagnostic_profiles, {})
+
+  resource_location = can(local.global_settings.regions[each.value.region]) ? local.global_settings.regions[each.value.region] : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)].location
+
 }

@@ -120,6 +120,16 @@ variable "subscriptions" {
   default     = {}
 }
 
+variable "connectivity_subscription_id" {
+  description = "Connectivity subscription id"
+  default     = null
+}
+
+variable "connectivity_tenant_id" {
+  description = "Connectivity tenant id"
+  default     = null
+}
+
 variable "subscription_billing_role_assignments" {
   description = "Configuration object - subscription billing roleassignments."
   default     = {}
@@ -211,6 +221,17 @@ variable "logic_app" {
 ## Databases variables
 variable "database" {
   description = "Configuration object - databases resources"
+  default     = {}
+}
+
+variable "messaging" {
+  description = "Configuration object - messaging resources"
+  default     = {}
+}
+
+## DataProtection variables
+variable "data_protection" {
+  description = "Configuration object - data protection"
   default     = {}
 }
 
@@ -319,9 +340,9 @@ variable "keyvault_certificate_issuers" {
 #   default = {}
 # }
 
-# variable "app_config" {
-#   default = {}
-# }
+variable "app_config" {
+  default = {}
+}
 
 # variable "local_network_gateways" {
 #   default = {}
@@ -358,4 +379,23 @@ variable "random_strings" {
 variable "cognitive_services" {
   description = "Configuration object - Cognitive Service Resource "
   default     = {}
+}
+
+variable "communication" {
+  description = "Configuration object - communication resources"
+  default     = {}
+}
+
+variable "identity" {
+  description = "Configuration object - identity resources"
+  default     = {}
+}
+variable "apim" {
+  default = {}
+}
+variable "purview" {
+  default = {}
+}
+variable "sentinel_watchlists" {
+  default = {}
 }

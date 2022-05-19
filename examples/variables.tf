@@ -2,8 +2,8 @@ variable "global_settings" {
   default = {
     default_region = "region1"
     regions = {
-      region1 = "southeastasia"
-      region2 = "eastasia"
+      region1 = "eastus2"
+      region2 = "centralus"
     }
   }
 }
@@ -177,6 +177,9 @@ variable "azurerm_routes" {
 variable "vnets" {
   default = {}
 }
+variable "virtual_subnets" {
+  default = {}
+}
 variable "azurerm_redis_caches" {
   default = {}
 }
@@ -235,6 +238,9 @@ variable "azuread_applications" {
   default = {}
 }
 variable "azuread_credentials" {
+  default = {}
+}
+variable "azuread_groups_membership" {
   default = {}
 }
 variable "azuread_service_principals" {
@@ -309,6 +315,21 @@ variable "aks_clusters" {
 variable "azure_container_registries" {
   default = {}
 }
+variable "batch_accounts" {
+  default = {}
+}
+variable "batch_applications" {
+  default = {}
+}
+variable "batch_certificates" {
+  default = {}
+}
+variable "batch_jobs" {
+  default = {}
+}
+variable "batch_pools" {
+  default = {}
+}
 variable "databricks_workspaces" {
   default = {}
 }
@@ -316,6 +337,9 @@ variable "machine_learning_workspaces" {
   default = {}
 }
 variable "monitor_action_groups" {
+  default = {}
+}
+variable "monitor_autoscale_settings" {
   default = {}
 }
 variable "monitoring" {
@@ -333,13 +357,22 @@ variable "event_hub_namespaces" {
 variable "application_gateways" {
   default = {}
 }
+variable "application_gateway_platforms" {
+  default = {}
+}
 variable "application_gateway_applications" {
+  default = {}
+}
+variable "application_gateway_applications_v1" {
   default = {}
 }
 variable "application_gateway_waf_policies" {
   default = {}
 }
 variable "mysql_servers" {
+  default = {}
+}
+variable "postgresql_flexible_servers" {
   default = {}
 }
 variable "postgresql_servers" {
@@ -349,6 +382,12 @@ variable "cosmos_db" {
   default = {}
 }
 variable "log_analytics" {
+  default = {}
+}
+variable "logic_app_workflow" {
+  default = {}
+}
+variable "logic_app_integration_account" {
   default = {}
 }
 variable "recovery_vaults" {
@@ -390,12 +429,15 @@ variable "diagnostics_destinations" {
 variable "vnet_peerings" {
   default = {}
 }
+variable "vnet_peerings_v1" {
+  default = {}
+}
 
 variable "packer_service_principal" {
   default = {}
 }
 
-variable "packer_managed_identity" {
+variable "packer_build" {
   default = {}
 }
 
@@ -513,6 +555,9 @@ variable "vhub_peerings" {
 variable "virtual_hub_connections" {
   default = {}
 }
+variable "virtual_hub_route_table_routes" {
+  default = {}
+}
 variable "virtual_hub_route_tables" {
   default = {}
 }
@@ -546,15 +591,336 @@ variable "vpn_sites" {
 variable "vpn_gateway_connections" {
   default = {}
 }
+variable "servicebus_namespaces" {
+  default = {}
+}
+variable "servicebus_topics" {
+  default = {}
+}
+variable "servicebus_queues" {
+  default = {}
+}
 variable "storage_account_queues" {
   default = {}
 }
 variable "storage_account_blobs" {
   default = {}
 }
+variable "storage_containers" {
+  default = {}
+}
+variable "vmware_private_clouds" {
+  default = {}
+}
+variable "vmware_clusters" {
+  default = {}
+}
+variable "vmware_express_route_authorizations" {
+  default = {}
+}
 variable "nat_gateways" {
   default = {}
 }
 variable "cognitive_services_account" {
+  default = {}
+}
+variable "database_migration_services" {
+  default = {}
+}
+variable "database_migration_projects" {
+  default = {}
+}
+variable "data_factory" {
+  default = {}
+}
+variable "data_factory_pipeline" {
+  default = {}
+}
+variable "data_factory_trigger_schedule" {
+  default = {}
+}
+variable "data_factory_dataset_azure_blob" {
+  default = {}
+}
+variable "data_factory_dataset_cosmosdb_sqlapi" {
+  default = {}
+}
+variable "data_factory_dataset_delimited_text" {
+  default = {}
+}
+variable "data_factory_dataset_http" {
+  default = {}
+}
+variable "data_factory_dataset_json" {
+  default = {}
+}
+variable "data_factory_dataset_mysql" {
+  default = {}
+}
+variable "data_factory_dataset_postgresql" {
+  default = {}
+}
+variable "data_factory_dataset_sql_server_table" {
+  default = {}
+}
+variable "data_factory_linked_service_azure_blob_storage" {
+  default = {}
+}
+variable "data_factory_linked_service_cosmosdb" {
+  default = {}
+}
+variable "data_factory_linked_service_web" {
+  default = {}
+}
+variable "data_factory_linked_service_mysql" {
+  default = {}
+}
+variable "data_factory_linked_service_postgresql" {
+  default = {}
+}
+variable "data_factory_linked_service_sql_server" {
+  default = {}
+}
+variable "data_factory_linked_service_azure_databricks" {
+  default = {}
+}
+variable "integration_service_environment" {
+  default = {}
+}
+variable "logic_app_action_http" {
+  default = {}
+}
+variable "logic_app_action_custom" {
+  default = {}
+}
+variable "logic_app_trigger_http_request" {
+  default = {}
+}
+variable "logic_app_trigger_recurrence" {
+  default = {}
+}
+variable "logic_app_trigger_custom" {
+  default = {}
+}
+variable "kusto_clusters" {
+  default = {}
+}
+variable "kusto_databases" {
+  default = {}
+}
+variable "kusto_attached_database_configurations" {
+  default = {}
+}
+variable "kusto_cluster_customer_managed_keys" {
+  default = {}
+}
+variable "kusto_cluster_principal_assignments" {
+  default = {}
+}
+variable "kusto_database_principal_assignments" {
+  default = {}
+}
+variable "kusto_eventgrid_data_connections" {
+  default = {}
+}
+variable "kusto_eventhub_data_connections" {
+  default = {}
+}
+variable "kusto_iothub_data_connections" {
+  default = {}
+}
+variable "private_dns_vnet_links" {
+  default = {}
+}
+variable "communication_services" {
+  default = {}
+}
+variable "machine_learning_compute_instance" {
+  default = {}
+}
+variable "data_factory_integration_runtime_self_hosted" {
+  default = {}
+}
+variable "data_factory_integration_runtime_azure_ssis" {
+  default = {}
+}
+variable "frontdoor_rules_engine" {
+  default = {}
+}
+variable "frontdoor_custom_https_configuration" {
+  default = {}
+}
+variable "cdn_endpoint" {
+  default = {}
+}
+variable "cdn_profile" {
+  default = {}
+}
+variable "function_apps" {
+  default = {}
+}
+variable "active_directory_domain_service" {
+  default = {}
+}
+variable "active_directory_domain_service_replica_set" {
+  default = {}
+}
+variable "signalr_services" {
+  default = {}
+}
+variable "api_management" {
+  default = {}
+}
+variable "api_management_api" {
+  default = {}
+}
+variable "api_management_api_diagnostic" {
+  default = {}
+}
+variable "api_management_logger" {
+  default = {}
+}
+variable "api_management_api_operation" {
+  default = {}
+}
+variable "api_management_backend" {
+  default = {}
+}
+variable "api_management_api_policy" {
+  default = {}
+}
+variable "api_management_api_operation_policy" {
+  default = {}
+}
+variable "api_management_api_operation_tag" {
+  default = {}
+}
+variable "api_management_user" {
+  default = {}
+}
+variable "api_management_custom_domain" {
+  default = {}
+}
+variable "api_management_diagnostic" {
+  default = {}
+}
+variable "api_management_certificate" {
+  default = {}
+}
+variable "api_management_gateway" {
+  default = {}
+}
+variable "api_management_gateway_api" {
+  default = {}
+}
+variable "api_management_group" {
+  default = {}
+}
+variable "lb" {
+  default = {}
+}
+variable "lb_backend_address_pool" {
+  default = {}
+}
+variable "lb_backend_address_pool_address" {
+  default = {}
+}
+variable "lb_nat_pool" {
+  default = {}
+}
+variable "lb_nat_rule" {
+  default = {}
+}
+variable "lb_outbound_rule" {
+  default = {}
+}
+variable "lb_probe" {
+  default = {}
+}
+variable "lb_rule" {
+  default = {}
+}
+variable "network_interface_backend_address_pool_association" {
+  default = {}
+}
+variable "monitor_metric_alert" {
+  default = {}
+}
+variable "monitor_activity_log_alert" {
+  default = {}
+}
+variable "log_analytics_storage_insights" {
+  default = {}
+}
+variable "purview_accounts" {
+  default = {}
+}
+variable "app_config" {
+  default = {}
+}
+variable "cosmosdb_sql_databases" {
+  default = {}
+}
+variable "sentinel" {
+  default = {}
+}
+variable "sentinel_automation_rules" {
+  default = {}
+}
+variable "sentinel_watchlists" {
+  default = {}
+}
+variable "sentinel_watchlist_items" {
+  default = {}
+}
+variable "sentinel_ar_fusions" {
+  default = {}
+}
+variable "sentinel_ar_ml_behavior_analytics" {
+  default = {}
+}
+variable "sentinel_ar_ms_security_incidents" {
+  default = {}
+}
+variable "sentinel_ar_scheduled" {
+  default = {}
+}
+variable "sentinel_dc_aad" {
+  default = {}
+}
+variable "sentinel_dc_app_security" {
+  default = {}
+}
+variable "sentinel_dc_aws" {
+  default = {}
+}
+variable "sentinel_dc_azure_threat_protection" {
+  default = {}
+}
+variable "sentinel_dc_ms_threat_protection" {
+  default = {}
+}
+variable "sentinel_dc_office_365" {
+  default = {}
+}
+variable "sentinel_dc_security_center" {
+  default = {}
+}
+variable "sentinel_dc_threat_intelligence" {
+  default = {}
+}
+variable "public_ip_prefixes" {
+  default = {}
+}
+variable "runbooks" {
+  default = {}
+}
+variable "backup_vaults" {
+  default = {}
+}
+variable "backup_vault_policies" {
+  default = {}
+}
+variable "backup_vault_instances" {
   default = {}
 }

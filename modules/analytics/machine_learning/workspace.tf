@@ -14,14 +14,14 @@ resource "azurecaf_name" "ws" {
 
 resource "azurerm_machine_learning_workspace" "ws" {
   name                    = azurecaf_name.ws.result
-  location                = var.location
-  resource_group_name     = var.resource_group_name
+  location                = local.resource_group.location
+  resource_group_name     = local.resource_group.name
   application_insights_id = var.application_insights_id
   key_vault_id            = var.keyvault_id
   storage_account_id      = var.storage_account_id
   container_registry_id   = var.container_registry_id
   tags                    = try(local.tags, null)
-  sku_name                = try(var.settings.sku_name, "Basic")
+  sku_name                = try(var.settings.sku_name, null)
   description             = try(var.settings.description, null)
   friendly_name           = try(var.settings.friendly_name, null)
   high_business_impact    = try(var.settings.high_business_impact, null)

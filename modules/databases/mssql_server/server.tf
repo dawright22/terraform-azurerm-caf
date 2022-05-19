@@ -1,5 +1,4 @@
 resource "azurerm_mssql_server" "mssql" {
-
   name                          = azurecaf_name.mssql.result
   resource_group_name           = var.resource_group_name
   location                      = var.location
@@ -44,7 +43,7 @@ resource "azurerm_mssql_virtual_network_rule" "network_rules" {
 
   name      = each.value.name
   server_id = azurerm_mssql_server.mssql.id
-  subnet_id = try(each.value.subnet_id, var.vnets[try(var.client_config.landingzone_key, each.value.lz_key)][each.value.vnet_key].subnets[each.value.subnet_key].id)
+  subnet_id = can(each.value.subnet_id) ? each.value.subnet_id : var.vnets[try(each.value.lz_key, var.client_config.landingzone_key)][each.value.vnet_key].subnets[each.value.subnet_key].id
 }
 
 resource "azurecaf_name" "mssql" {
@@ -72,7 +71,7 @@ resource "random_password" "sql_admin" {
 resource "azurerm_key_vault_secret" "sql_admin_password" {
   count = try(var.settings.administrator_login_password, null) == null ? 1 : 0
 
-  name         = format("%s-password", azurecaf_name.mssql.result)
+  name         = can(var.settings.keyvault_secret_name) ? var.settings.keyvault_secret_name : format("%s-password", azurecaf_name.mssql.result)
   value        = random_password.sql_admin.0.result
   key_vault_id = var.keyvault_id
 
@@ -84,3 +83,9 @@ resource "azurerm_key_vault_secret" "sql_admin_password" {
 }
 
 
+resource "azurerm_mssql_server_transparent_data_encryption" "tde" {
+  count = try(var.settings.transparent_data_encryption.enable, false) ? 1 : 0
+
+  server_id        = azurerm_mssql_server.mssql.id
+  key_vault_key_id = can(var.settings.transparent_data_encryption.encryption_key) ? var.remote_objects.keyvault_keys[try(var.settings.transparent_data_encryption.encryption_key.lz_key, var.client_config.landingzone_key)][var.settings.transparent_data_encryption.encryption_key.keyvault_key_key].id : null
+}

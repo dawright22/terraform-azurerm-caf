@@ -1,7 +1,7 @@
 global_settings = {
   default_region = "region1"
   regions = {
-    region1 = "southeastasia"
+    region1 = "australiaeast"
   }
 }
 
@@ -26,7 +26,7 @@ aks_clusters = {
     os_type            = "Linux"
 
     identity = {
-      type = "UserAssigned"
+      type                 = "UserAssigned"
       managed_identity_key = "aks_usermsi"
     }
 

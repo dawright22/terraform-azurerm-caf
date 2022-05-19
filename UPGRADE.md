@@ -1,6 +1,30 @@
 # Upgrade notes
 
-When ugrading to a newer version of the CAF module, some configuration structures must be updated before applying the modifications.
+When upgrading to a newer version of the CAF module, some configuration structures must be updated before applying the modifications.
+
+## 5.5.0
+
+Version 5.5.0 deprecates support for Terraform 0.13 and 0.14 as we introduce provider configuration aliases which were supported started on Terraform 0.15.
+Configuration file format should remain the same for 5.5.x as per 5.4.x.
+
+- When you call the module as standalone, you will need to update the provider initialization as per:
+```hcl
+provider "azurerm" {
+  alias = "vhub"
+}
+```
+- This update is already included in landing zones starting version 2112.0.
+
+
+## 5.4.5
+
+Upgrade to 5.4.5 includes support azurerm 2.81.0 provider and implements the following changes:
+
+- Deprecation of client_affinity_enabled attribute for the azurerm_function_app object. This option is nolonger configurable and the property is commented in the code.
+
+## 5.4.4
+
+Due to a regression in the Terraform provider >2.78, this update is not capable of cross-tenant, cross-subscriptions peering between vhub and vwans. This is available in 5.4.3 and will be fixed in 5.5.0.
 
 ## 5.4.0
 

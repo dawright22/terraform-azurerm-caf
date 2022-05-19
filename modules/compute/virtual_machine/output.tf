@@ -11,9 +11,9 @@ output "os_type" {
 }
 
 output "internal_fqdns" {
-  value = flatten([
-    for nic_key in var.settings.virtual_machine_settings[local.os_type].network_interface_keys : format("%s.%s", try(azurerm_network_interface.nic[nic_key].internal_dns_name_label, try(azurerm_linux_virtual_machine.vm["linux"].name, azurerm_windows_virtual_machine.vm["windows"].name)), azurerm_network_interface.nic[nic_key].internal_domain_name_suffix)
-  ])
+  value = try(var.settings.networking_interfaces, null) != null ? flatten([
+    for nic_key in try(var.settings.virtual_machine_settings[local.os_type].network_interface_keys, []) : format("%s.%s", try(azurerm_network_interface.nic[nic_key].internal_dns_name_label, try(azurerm_linux_virtual_machine.vm["linux"].name, azurerm_windows_virtual_machine.vm["windows"].name)), azurerm_network_interface.nic[nic_key].internal_domain_name_suffix)
+  ]) : null
 }
 
 output "admin_username" {
@@ -37,15 +37,20 @@ output "ssh_keys" {
   value = local.create_sshkeys ? {
     keyvault_id              = local.keyvault.id
     ssh_private_key_pem      = azurerm_key_vault_secret.ssh_private_key[local.os_type].name
-    ssh_public_key_open_ssh = azurerm_key_vault_secret.ssh_public_key_openssh[local.os_type].name
+    ssh_public_key_open_ssh  = azurerm_key_vault_secret.ssh_public_key_openssh[local.os_type].name
     ssh_private_key_open_ssh = azurerm_key_vault_secret.ssh_public_key_openssh[local.os_type].name #for backard compat, wrong name, will be removed in future version.
   } : null
 }
 
 output "nic_id" {
-  value = flatten([
-    for nic_key in var.settings.virtual_machine_settings[local.os_type].network_interface_keys : format("%s.%s", try(azurerm_network_interface.nic[nic_key].id, try(azurerm_linux_virtual_machine.vm["linux"].name, azurerm_windows_virtual_machine.vm["windows"].name)), azurerm_network_interface.nic[nic_key].id)
-  ])
+  value = coalescelist(
+    flatten(
+      [
+        for nic_key in try(var.settings.virtual_machine_settings[local.os_type].network_interface_keys, []) : format("%s.%s", try(azurerm_network_interface.nic[nic_key].id, try(azurerm_linux_virtual_machine.vm["linux"].name, azurerm_windows_virtual_machine.vm["windows"].name)), azurerm_network_interface.nic[nic_key].id)
+      ]
+    ),
+    try(var.settings.networking_interface_ids, [])
+  )
 }
 
 output "nics" {
@@ -57,4 +62,18 @@ output "nics" {
   }
 }
 
+output "data_disks" {
+  value = {
+    for key, value in lookup(var.settings, "data_disks", {}) : key => azurerm_managed_disk.disk[key].id
+  }
+}
 
+# azurerm_linux_virtual_machine and azurerm_windows_virtual_machine do not expose the os_disk id by itself
+data "azurerm_managed_disk" "os_disk" {
+  name = local.os_type == "linux" ? try(azurerm_linux_virtual_machine.vm["linux"].os_disk[0].name, null) : try(azurerm_windows_virtual_machine.vm["windows"].os_disk[0].name, null)
+  resource_group_name = var.resource_group_name
+}
+
+output "os_disk_id" {
+  value = data.azurerm_managed_disk.os_disk.id
+}
